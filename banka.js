@@ -210,11 +210,11 @@ const korisnik4 = SavingsRacun.kreirajSavingsRacun('Ricko Kanic', 0);
 
 korisnik1.prikaziStanjeRacuna();
 
-Banka.uplataNaRacun(korisnik1.getBrojRacuna, korisnik2.getBrojRacuna, 400);
-Banka.uplataNaRacun(korisnik1.getBrojRacuna, korisnik4.getBrojRacuna, 200);
+// Banka.uplataNaRacun(korisnik1.getBrojRacuna, korisnik2.getBrojRacuna, 400);
+// Banka.uplataNaRacun(korisnik1.getBrojRacuna, korisnik4.getBrojRacuna, 200);
 
-korisnik2.povuciNovac(50);
+// korisnik2.povuciNovac(50);
 
-korisnik1.povuciNovac(20);
+// korisnik1.povuciNovac(20);
 
 Banka.prikaziRacune();
