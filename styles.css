@@ -1,0 +1,30 @@
+* {
+    padding-top: 2px;
+    font-size: 1.2rem;
+    width: auto;
+    height: auto;
+}
+
+
+#picture {
+    display: block;
+
+    width: 300px;
+    height: auto;
+}
+
+.header {
+    display: flex;
+    gap: 90px;
+    height: 50px;
+    align-items: center;
+}
+
+.odjava {
+    background-color: rgb(97, 97, 173);
+    height: 70px;
+    width: 100px;
+    text-align: center;
+    border-left: 1px solid black;
+    border-radius: 10%;
+}
