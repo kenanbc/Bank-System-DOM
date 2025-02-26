@@ -130,6 +130,9 @@
         const transferBtn = document.querySelector("#transfer-btn");
 
         accStatusBtn.addEventListener("click", () => {
+            const mainActionDiv = document.querySelector(".main-action");
+            mainActionDiv.style.display = 'block';
+            
             const innerActionDiv = document.querySelector(".main-action-inner");
             const name = document.querySelector("#name-paragraph");
 

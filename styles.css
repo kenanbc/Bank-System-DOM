@@ -34,7 +34,7 @@ body{
     margin: 0;
     display: flex;
     flex-direction: column;
-    /*height: 100vh;*/
+    height: 100vh;
 }
 
 button{
@@ -75,6 +75,7 @@ button:hover{
 }
 
 .main-action{
+    display: none;
     background-color: #2980d8;
     /* border-top: 1px solid #1f3d7b; */
     height: 25rem;
@@ -121,6 +122,10 @@ button:hover{
 
 .footer-left{
     width: 30%;
+}
+
+.footer-left > h3{
+    color: #2980d8 ;
 }
 
 .footer-right{
