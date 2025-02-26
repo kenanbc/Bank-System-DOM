@@ -34,6 +34,16 @@ body{
     margin: 0;
     display: flex;
     flex-direction: column;
+    /*height: 100vh;*/
+}
+
+button{
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #1f3d7b;
+    color: white;
 }
 
 
@@ -48,7 +58,7 @@ body{
 
 .main-div > div{
     width: 25%;
-    min-height: 12rem;
+    min-height: 10rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,10 +73,44 @@ body{
     height: 30px;
     margin-top: 10%;
 }
+
+.main-action{
+    background-color: #2980d8;
+    /* border-top: 1px solid #1f3d7b; */
+    height: 25rem;
+    padding: 1rem 20%;
+}
+
+.main-action-inner{
+    /* border: 1px solid #1f3d7b; */
+    box-shadow: 0 0 0.5rem #1f3d7b;
+    border-radius: 3rem;
+    min-height: 100%;
+    padding: 4%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-action-inner > h1{
+    color: #111827;
+    font-size: 2.5rem;
+    margin-top: 0;
+}
+
+.main-action-inner > h2, h3{
+    margin-left: 2rem;
+    color: #272D2D;
+}
+
+#money-value{
+    margin: 5rem 0 0 2rem;
+}
+
 .footer{
     display: flex;
-    min-width: 100%;
-    min-height: 30%;
+    width: 100%;
     background-color: #1f3d7b;
     justify-content: space-between;
     align-items: center;

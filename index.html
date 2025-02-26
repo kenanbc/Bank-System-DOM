@@ -72,6 +72,12 @@
         </div>
     </div>
 
+    <div class="main-action">
+        <div class="main-action-inner">
+
+        </div>
+    </div>
+
     <div class="footer">
         <div class="footer-left">
             <img src="https://www.asabanka.ba/wp-content/themes/asa/images/logo-white.svg" alt="">
@@ -117,19 +123,63 @@
         <p>© 2025 Najbolja Banka d.d. Sarajevo.</p>
     </div>
 
-    <script>
+    <script type="module">        
+        const accStatusBtn = document.querySelector("#acc-status-btn");
+        const depositMoneyBtn = document.querySelector("#deposit-money-btn");
+        const payBtn = document.querySelector("#pay-btn");
+        const transferBtn = document.querySelector("#transfer-btn");
 
-        const stanjeRacuna = document.querySelector('.stanjeRacuna');
-        const povuciNovac = document.querySelector('.povuciNovac');
-        const depozit = document.querySelector('.depozitNovca');
-        const tipRacuna = document.querySelector('.tipRacuna');
-        const text1 = document.querySelector('#trenutnoStanje');
+        accStatusBtn.addEventListener("click", () => {
+            const innerActionDiv = document.querySelector(".main-action-inner");
+            const name = document.querySelector("#name-paragraph");
 
-        stanjeRacuna.addEventListener("click", function () {
+            if(!name){
+                const userObject = JSON.parse(sessionStorage.getItem('user'));
+                console.log(userObject);
 
-            alert('dd')
-         
-        })
+                const innerLeftDiv = document.createElement("div");
+                const innerRightDiv = document.createElement("div");
+                innerLeftDiv.setAttribute("class", "inner-action-left");
+                innerRightDiv.setAttribute("class", "inner-acton-right");
+
+                innerActionDiv.appendChild(innerLeftDiv);
+                innerActionDiv.appendChild(innerRightDiv);
+
+                const typeOfAcc = document.createElement("h1");
+                typeOfAcc.setAttribute("id", "type-of-acc");
+                typeOfAcc.textContent = userObject.tipRacuna + ' račun';
+                innerLeftDiv.appendChild(typeOfAcc)
+
+                const nameParagraph = document.createElement("h2");
+                nameParagraph.setAttribute("id", 'name-paragraph');
+                nameParagraph.textContent = userObject.imeVlasnika;
+                innerLeftDiv.appendChild(nameParagraph);
+
+                const accNumber = document.createElement("h3");
+                accNumber.setAttribute("id", "acc-number");
+                accNumber.textContent = userObject.brojRacuna;
+                innerLeftDiv.appendChild(accNumber);
+
+                const moneyValue = document.createElement("h1");
+                moneyValue.setAttribute("id", "money-value");
+                moneyValue.textContent = userObject.iznosNaRacunu + " BAM";
+                innerLeftDiv.appendChild(moneyValue);
+
+
+            }
+        });
+
+        depositMoneyBtn.addEventListener("click", () => {
+
+        });
+
+        payBtn.addEventListener("click", () => {
+
+        });
+
+        transferBtn.addEventListener("click", () => {
+
+        });
     </script>
 </body>
 

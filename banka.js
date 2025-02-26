@@ -1,4 +1,4 @@
-class Banka{
+export class Banka{
     adresa;
     racuni = [];
 
@@ -14,8 +14,8 @@ class Banka{
         return !this.racuni.find((e) => e.getBrojRacuna === brojRacuna);
     }
 
-    nadjiRacun(brojRacuna){
-       return this.racuni.find((e) => e.getBrojRacuna === brojRacuna);
+    nadjiRacun(brojRacuna, email){
+       return this.racuni.find((e) => e.getBrojRacuna === brojRacuna || e.email === email);
     }
 
     uplataNaRacun(sourceRacun, targetRacun, iznos){
@@ -59,17 +59,17 @@ class Banka{
 
 class Racun{
     imeVlasnika;
-    username;
+    email;
     password;
-    #brojRacuna;
-    #iznosNaRacunu;
+    brojRacuna;
+    iznosNaRacunu;
 
-    constructor(imeVlasnika, iznosNaRacunu, username, password, banka){
+    constructor(imeVlasnika, iznosNaRacunu, email, password, banka){
         this.imeVlasnika = imeVlasnika;
-        this.username = username;
+        this.email = email;
         this.password = password;
-        this.#brojRacuna = this.#generisiBrojRacuna(banka);
-        this.#iznosNaRacunu = iznosNaRacunu;
+        this.brojRacuna = this.#generisiBrojRacuna(banka);
+        this.iznosNaRacunu = iznosNaRacunu;
     }
 
     #generisiBrojRacuna(banka){
@@ -85,15 +85,15 @@ class Racun{
     }
 
     get getIznosNaRacunu(){
-        return this.#iznosNaRacunu;
+        return this.iznosNaRacunu;
     }
 
     get getBrojRacuna(){
-        return this.#brojRacuna;
+        return this.brojRacuna;
     }
 
     set setIznosNaRacunu(iznos){
-        this.#iznosNaRacunu = iznos;
+        this.iznosNaRacunu = iznos;
     }
 
     povuciNovac(iznos){
@@ -114,34 +114,34 @@ class Racun{
     }
 };
 
-class CheckingRacun extends Racun {
-    constructor(imeVlasnika, iznosNaRacunu, username, password, banka) {
-        super(imeVlasnika, iznosNaRacunu, username, password, banka);
+export class CheckingRacun extends Racun {
+    constructor(imeVlasnika, iznosNaRacunu, email, password, banka) {
+        super(imeVlasnika, iznosNaRacunu, email, password, banka);
         this.tipRacuna = 'Checking';
         banka.dodajRacun(this);
     }
 
-    static kreirajCheckingRacun(imeVlasnika, iznosNaRacunu, username, password, banka) {
+    static kreirajCheckingRacun(imeVlasnika, iznosNaRacunu, email, password, banka) {
         if (iznosNaRacunu < 0)
             return `Nije dozvoljeno kreiranje racuna sa negativnim iznosom!`;
 
-        return new CheckingRacun(imeVlasnika, iznosNaRacunu, username, password, banka);
+        return new CheckingRacun(imeVlasnika, iznosNaRacunu, email, password, banka);
     }
 }
 
-class SavingsRacun extends Racun{
+export class SavingsRacun extends Racun{
 
-    constructor(imeVlasnika, iznosNaRacunu, username, password, banka){
-        super(imeVlasnika, iznosNaRacunu, username, password, banka);
+    constructor(imeVlasnika, iznosNaRacunu, email, password, banka){
+        super(imeVlasnika, iznosNaRacunu, email, password, banka);
         this.tipRacuna = 'Savings';;
         banka.dodajRacun(this);
     }
 
-    static kreirajSavingsRacun(imeVlasnika, iznosNaRacunu, username, password, banka){
+    static kreirajSavingsRacun(imeVlasnika, iznosNaRacunu, email, password, banka){
         if(iznosNaRacunu < 0)
             return `Nije dozvoljeno kreiranje racuna sa negativnim iznosom!`;
         
-        return new SavingsRacun(imeVlasnika, iznosNaRacunu, username, password, banka);
+        return new SavingsRacun(imeVlasnika, iznosNaRacunu, email, password, banka);
     }
 };
 
@@ -152,5 +152,6 @@ const korisnik1 = CheckingRacun.kreirajCheckingRacun('Mujo Mujic', 700, 'mujo123
 const korisnik2 = CheckingRacun.kreirajCheckingRacun('Niko Nikic', 500, 'niko456', 'pass456', banka);
 const korisnik3 = CheckingRacun.kreirajCheckingRacun('Ane Kane', -500, 'ane789', 'pass789', banka);
 const korisnik4 = SavingsRacun.kreirajSavingsRacun('Ricko Kanic', 0, 'ricko999', 'pass999', banka);
+
 
 
