@@ -1,42 +1,89 @@
 #picture {
     display: block;
-    width: 15rem;
+    width: 300px;
+    height: 100%;
     height: auto;
+    padding-top: 6%;
 }
 
 .header {
     display: flex;
-    height: 3rem;
+    gap: 8%;
+    min-height: 12vh;
+   text-align: center;
+    justify-content: center;
+   width: 100%;
+   white-space: nowrap;
+   color: rgb(4, 4, 173);
+   background-color: white;
+}
+.check-button {
+    font-size: 15px;
+    width: 120px;
+    height: 50px;
+    border-radius: 10%;
+    background-color: #615ae2;
+    color: white;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem;
-    background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+.odjava {
+    background-color: rgb(145, 145, 234);
+    width: 20%;
+    text-align: center;
+    border: 1px solid black;
+    height: 3,5rem;
+    align-items: center;
+} 
+
+.bank-info,
+.informacijeOKorisniku,
+.tipRacuna {
+    margin-top: 1.5%;
 }
 
-.odjava {
-    background-color: rgb(97, 97, 173);
-    height: 3rem;
-    width: 6rem;
-    text-align: center;
-    border-left: 1px solid black;
-    border-radius: 2rem;
+.check-out-button {
+    width: 100px;
+    height:25px;
+    border-radius: 10%;
+    background-color: #615ae2;
     color: white;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0;
+    
 }
-body{
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #2980d8;
+
+.check-out-button:hover {
+    background-color: #267429;
 }
+
+.bank-info {
+    font-size: 1.2rem;
+}
+
+/* .odjava>button {
+    margin-left: 0;
+} */
 
 button{
     cursor: pointer;
 }
 
 button:hover{
-    background-color: #1f3d7b;
+    background-color: #23680a;
     color: white;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #2980d8;
 }
 
 
