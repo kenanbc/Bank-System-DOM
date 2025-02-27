@@ -1,100 +1,20 @@
 
-#picture {
-    display: block;
-    width: 300px;
-    height: 80%;
-    padding-top: 4%;
-
+/* * {
+    padding-top: 2px;
+    font-size: 1.2rem;
+    width: auto;
+    height: auto;
+}*/
 
 
 #picture {
     display: block;
     width: 15rem;
     height: auto;
-
 }
 
 .header {
     display: flex;
-
-    gap: 8%;
-    min-height: 5vh;
-    text-align: center;
-    justify-content: center;
-    width: 100%;
-    white-space: nowrap;
-    color: rgb(4, 4, 173);
-}
-
-.check-button {
-    font-size: 15px;
-    width: 120px;
-    height: 50px;
-    border-radius: 10%;
-    background-color: #615ae2;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-weight: bold;
-
-}
-
-.bank-info,
-.informacijeOKorisniku,
-.tipRacuna {
-    margin-top: 1%;
-}
-
-.check-out-button {
-    font-size: 10px;
-    width: 100px;
-    height: 30px;
-    border-radius: 10%;
-    background-color: #615ae2;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.check-out-button:hover {
-    background-color: #267429;
-}
-
-.bank-info {
-    font-size: 1.2rem;
-}
-
-.check-button:hover {
-    background-color: #267429;
-}
-
-.odjava {
-    background-color: rgb(126, 126, 255);
-    width: 20%;
-    text-align: center;
-    border: 1px solid black;
-    padding-right: 0;
-    margin-right: 0;
-
-}
-
-.odjava>button {
-    margin-left: 30%;
-}
-
-body {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.main-div {
-=======
     height: 3rem;
     align-items: center;
     justify-content: space-between;
@@ -130,26 +50,17 @@ button:hover{
 
 
 .main-div{
-
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 20%;
     background-color: #2980d8;
-
-}
-
-.main-div>div {
-    width: 25%;
-    min-height: 200px;
-
     min-height: 20rem;
 }
 
 .main-div > div{
     width: 25%;
     min-height: 10rem;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -157,23 +68,13 @@ button:hover{
     margin: 0 20px;
 }
 
-
-.main-div>div>button {
-
 .main-div > div > button{
-
     border: 1px solid silver;
     border-radius: 50px;
     width: 100%;
     height: 30px;
     margin-top: 10%;
 }
-
-
-.footer {
-    display: flex;
-    min-width: 100%;
-    min-height: 30%;
 
 .main-action{
     /* display: none; */
@@ -219,31 +120,12 @@ button:hover{
 .footer{
     display: flex;
     width: 100%;
-
     background-color: #1f3d7b;
     justify-content: space-between;
     align-items: center;
     padding: 2% 10%;
     box-sizing: border-box;
     color: silver;
-
-}
-
-.footer-left {
-    width: 30%;
-}
-
-.footer-right {
-    width: 50%;
-}
-
-.inner>div>ul>li {
-    list-style-type: none;
-    margin-top: 5%;
-}
-
-.bottom-footer {
-
     margin-top: 2rem;
 }
 
@@ -264,7 +146,6 @@ button:hover{
     margin-top: 5%;
 }
 .bottom-footer{
-
     background-color: #1f3d7b;
     display: flex;
     justify-content: space-between;
@@ -274,60 +155,25 @@ button:hover{
     color: silver;
 }
 
-
-.bottom-footer>div {
-    min-width: 20%;
-}
-
-.footer-logos {
-
 .bottom-footer > div{
     min-width: 20%;
 }
 
 .footer-logos{
-
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-
-.footer-logos>svg {
-    margin: 2%;
-}
-
-.about-us {
 
 .footer-logos > svg {
     margin: 2%;
 }
 
 .about-us{
-
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-
-.about-us>button {
-    color: white;
-    background-color: transparent;
-    width: 100%;
-    height: 100%;
-    border: 1px solid gray;
-    border-radius: 10px;
-}
-
-.inner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.inner>div {
-    width: fit-content;
 
 .about-us > button{
     color: white;
@@ -360,5 +206,4 @@ button:hover{
 .footer-right > div{
     display: flex;
     justify-content: center;
-
 }
