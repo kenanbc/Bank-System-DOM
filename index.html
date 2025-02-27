@@ -131,8 +131,7 @@
 
         accStatusBtn.addEventListener("click", () => {
             const mainActionDiv = document.querySelector(".main-action");
-            mainActionDiv.style.display = 'block';
-            
+            mainActionDiv.style.visibility = 'visible';
             const innerActionDiv = document.querySelector(".main-action-inner");
             const name = document.querySelector("#name-paragraph");
 
@@ -147,6 +146,8 @@
 
                 innerActionDiv.appendChild(innerLeftDiv);
                 innerActionDiv.appendChild(innerRightDiv);
+
+                innerLeftDiv.style.width = "100%"
 
                 const typeOfAcc = document.createElement("h1");
                 typeOfAcc.setAttribute("id", "type-of-acc");
@@ -168,6 +169,10 @@
                 moneyValue.textContent = userObject.iznosNaRacunu + " BAM";
                 innerLeftDiv.appendChild(moneyValue);
 
+                const walletImg = document.createElement("img");
+                walletImg.setAttribute("src", "./wallet-svgrepo-com.png");
+                walletImg.style.width = "40%";
+                innerRightDiv.appendChild(walletImg);
 
             }
         });
