@@ -57,7 +57,7 @@ export class Banka{
 
 }
 
-class Racun{
+export class Racun{
     imeVlasnika;
     username;
     password;

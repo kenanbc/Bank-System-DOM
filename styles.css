@@ -1,22 +1,23 @@
 #picture {
     display: block;
     width: 300px;
-    height: 100%;
     height: auto;
-    padding-top: 6%;
 }
 
 .header {
+    width: 100%;
+    /* min-height: 12%; */
+    height: 15%;
     display: flex;
     gap: 8%;
-    min-height: 12vh;
-   text-align: center;
+    text-align: center;
+    align-items: center;
     justify-content: center;
-   width: 100%;
-   white-space: nowrap;
-   color: rgb(4, 4, 173);
-   background-color: white;
+    white-space: nowrap;
+    color: rgb(4, 4, 173);
+    background-color: white;
 }
+
 .check-button {
     font-size: 15px;
     width: 120px;
@@ -24,12 +25,10 @@
     border-radius: 10%;
     background-color: #615ae2;
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     font-weight: bold;
 }
+
 .odjava {
     background-color: rgb(145, 145, 234);
     width: 20%;
@@ -37,45 +36,70 @@
     border: 1px solid black;
     height: 3,5rem;
     align-items: center;
-} 
+    color: blue;
+    font-size: 16px;
+}
 
 .bank-info,
 .informacijeOKorisniku,
 .tipRacuna {
-    margin-top: 1.5%;
+    margin-top: 1%;
 }
 
 .check-out-button {
     width: 100px;
-    height:25px;
+    height: 25px;
     border-radius: 10%;
     background-color: #615ae2;
     color: white;
     cursor: pointer;
     font-weight: bold;
-    padding: 0;
-    
 }
 
 .check-out-button:hover {
     background-color: #267429;
 }
 
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #23680a;
+    color: white;
+}
+
 .bank-info {
     font-size: 1.2rem;
 }
 
-/* .odjava>button {
-    margin-left: 0;
-} */
-
-button{
-    cursor: pointer;
+.popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border-radius: 8px;
+    width: 500px;
+    height: 300px;
+    overflow: auto;
 }
 
-button:hover{
-    background-color: #23680a;
-    color: white;
+.popup-content {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 body {
@@ -87,7 +111,7 @@ body {
 }
 
 
-.main-div{
+.main-div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -96,7 +120,7 @@ body {
     min-height: 20rem;
 }
 
-.main-div > div{
+.main-div>div {
     width: 25%;
     min-height: 10rem;
     display: flex;
@@ -106,7 +130,7 @@ body {
     margin: 0 20px;
 }
 
-.main-div > div > button{
+.main-div>div>button {
     border: 1px solid silver;
     border-radius: 50px;
     width: 100%;
@@ -114,7 +138,7 @@ body {
     margin-top: 10%;
 }
 
-.main-action{
+.main-action {
     /* display: none; */
     visibility: hidden;
     background-color: #2980d8;
@@ -123,7 +147,7 @@ body {
     padding: 1rem 25%;
 }
 
-.main-action-inner{
+.main-action-inner {
     /* border: 1px solid #1f3d7b; */
     box-shadow: 0 0 0.5rem #1f3d7b;
     border-radius: 3rem;
@@ -135,27 +159,28 @@ body {
     align-items: center;
 }
 
-.main-action-inner  h1{
+.main-action-inner h1 {
     color: #111827;
     font-size: 2.5rem;
     margin-top: 0;
 }
 
-.main-action-inner h2, h3{
+.main-action-inner h2,
+h3 {
     margin-left: 2rem;
     color: #272D2D;
 }
 
-.inner-acton-right{
+.inner-acton-right {
     display: flex;
     justify-content: center;
 }
 
-#money-value{
+#money-value {
     margin: 5rem 0 0 2rem;
 }
 
-.footer{
+.footer {
     display: flex;
     width: 100%;
     background-color: #1f3d7b;
@@ -167,23 +192,24 @@ body {
     margin-top: 2rem;
 }
 
-.footer-left{
+.footer-left {
     width: 30%;
 }
 
-.footer-left > h3{
-    color: #2980d8 ;
+.footer-left>h3 {
+    color: #2980d8;
 }
 
-.footer-right{
+.footer-right {
     width: 50%;
 }
 
-.inner > div > ul > li{
+.inner>div>ul>li {
     list-style-type: none;
     margin-top: 5%;
 }
-.bottom-footer{
+
+.bottom-footer {
     background-color: #1f3d7b;
     display: flex;
     justify-content: space-between;
@@ -193,27 +219,27 @@ body {
     color: silver;
 }
 
-.bottom-footer > div{
+.bottom-footer>div {
     min-width: 20%;
 }
 
-.footer-logos{
+.footer-logos {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.footer-logos > svg {
+.footer-logos>svg {
     margin: 2%;
 }
 
-.about-us{
+.about-us {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.about-us > button{
+.about-us>button {
     color: white;
     background-color: transparent;
     width: 70%;
@@ -222,33 +248,33 @@ body {
     border-radius: 2rem;
 }
 
-.about-us > button:hover{
+.about-us>button:hover {
     background-color: #2980d8;
 }
 
-.inner{
+.inner {
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.inner > div{
+.inner>div {
     width: fit-content;
 }
 
-.footer-right > div > h2{
+.footer-right>div>h2 {
     width: fit-content;
     text-align: center;
 }
 
-.footer-right > div{
+.footer-right>div {
     display: flex;
     justify-content: center;
 }
 
 
-.money-input-field, .accNum-input-field{
+.money-input-field,
+.accNum-input-field {
     border-radius: 2rem;
     border: 0;
 }
-
