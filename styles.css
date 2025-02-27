@@ -207,3 +207,10 @@ button:hover{
     display: flex;
     justify-content: center;
 }
+
+
+.money-input-field, .accNum-input-field{
+    border-radius: 2rem;
+    border: 0;
+}
+
