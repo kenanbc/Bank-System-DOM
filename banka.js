@@ -1,82 +1,49 @@
-//GLOBALNE VARIJABLE ZA FORMATIRANJE ISPISA
-const red = '\x1b[35m';;
-const green = '\x1b[32m';
-const blue = '\x1b[36m';
-const yellow = '\x1b[33m';
-const white = '\x1b[0m';
-const bold = '\x1b[1m';
-const nonBold = '\x1b[0m';
-
-function ispisLinija(broj = 50) {  
-    for(let i = 0; i < broj; i++)
-        process.stdout.write("-");
-
-    console.log();
-}
-ispisLinija(80);
-console.log(`\t\t\t${bold}${yellow}NAJBOLJA BANKOVNA APLIKACIJA${nonBold}${white}`);
-ispisLinija(80);
-
-//****************************************************************
-
-class Banka{
+export class Banka{
     adresa;
-    static racuni = [];
+    racuni = [];
 
     constructor(adresa){
         this.adresa = adresa;
     }
  
-    static prikaziRacune(){
-        ispisLinija(80);
-        console.log(`\t\t\t${bold}Lista kreiranih racuna${nonBold}\n`);
-        Banka.racuni.forEach((e) => console.log(`Ime vlasnika: ${yellow}${e.imeVlasnika}${white} Tip racuna: ${blue}${e.tipRacuna}${white} Broj racuna: ${yellow}${e.getBrojRacuna}${white}`));
+    dodajRacun(racun){
+        this.racuni.push(racun);
     }
 
-    static dodajRacun(racun){
-        Banka.racuni.push(racun);
+    nePostojiRacun(brojRacuna){
+        return !this.racuni.find((e) => e.getBrojRacuna === brojRacuna);
     }
 
-
-    static nePostojiRacun(brojRacuna){
-        return !Banka.racuni.find((e) => e.getBrojRacuna === brojRacuna);
+    nadjiRacun(brojRacuna, username){
+       return this.racuni.find((e) => e.getBrojRacuna === brojRacuna || e.username === username);
     }
 
-    static nadjiRacun(brojRacuna){
-       return Banka.racuni.find((e) => e.getBrojRacuna === brojRacuna);
-    }
+    uplataNaRacun(sourceRacun, targetRacun, iznos){
+        let srcRacun = this.nadjiRacun(sourceRacun);
 
-    static uplataNaRacun(sourceRacun, targetRacun, iznos){
-        ispisLinija(80);
-        let srcRacun = Banka.nadjiRacun(sourceRacun);
+        if(iznos < 0) 
+            return `Unesen negativan iznos!`;
 
-        if(iznos < 0) {
-            console.log(`${red}Unesen negativan iznos!${white}`);
-            return;
-        }
-        else if(Banka.nePostojiRacun(targetRacun) || Banka.nePostojiRacun(sourceRacun) || targetRacun === sourceRacun){
-            console.log(`${red}Unijeli ste pogresan broj racuna!${white}`);
-            return;
-        }
-        else if(!Banka.provjeraTipaRacuna(sourceRacun) || !Banka.provjeraTipaRacuna(targetRacun)){
-            console.log(`${red}Nemoguce izvrsiti transakciju. Pogresan tip racuna! ${white}`); 
-            return;
-        }
+        else if(this.nePostojiRacun(targetRacun) || this.nePostojiRacun(sourceRacun) || targetRacun === sourceRacun)
+            return `Unijeli ste pogresan broj racuna!`;
+        
+        else if(!this.provjeraTipaRacuna(sourceRacun) || !this.provjeraTipaRacuna(targetRacun))
+            return `Nemoguce izvrsiti transakciju. Pogresan tip racuna!`;
+
         else if(iznos > srcRacun.getIznosNaRacunu){
-            console.log(`${red}Nemate dovoljno sredstava na racunu!${white}`);
-            return;
+            return `Nemate dovoljno sredstava na racunu!`;
         }
-        else if(Banka.izvrsiTransakciju(targetRacun, iznos)){
+        else if(this.izvrsiTransakciju(targetRacun, iznos)){
             srcRacun.setIznosNaRacunu = srcRacun.getIznosNaRacunu - iznos;
-            console.log(`${green}Uspjesno ste izvrsili uplatu na racun: ${blue} ${targetRacun} ${green} u iznosu od ${yellow} ${iznos}${green}KM.` + white); 
+            return `Uspjesno ste izvrsili uplatu na racun`; 
         }
         else
-            console.log(`${red}Doslo je do problema sa izvodenjem transakcije! Pokusajte ponovo!${white}`);
+           return `Doslo je do problema sa izvodenjem transakcije! Pokusajte ponovo!`;
 
     }
 
-    static izvrsiTransakciju(brojRacuna, iznos){
-        let racun = Banka.racuni.find((e) => e.getBrojRacuna === brojRacuna);
+    izvrsiTransakciju(brojRacuna, iznos){
+        let racun = this.racuni.find((e) => e.getBrojRacuna === brojRacuna);
         if(racun){
             racun.setIznosNaRacunu = racun.getIznosNaRacunu + iznos;
             return true;
@@ -84,137 +51,107 @@ class Banka{
         return false;
     }
 
-    static provjeraTipaRacuna(brojRacuna){
-        return Banka.racuni.find((e) => e.tipRacuna.toLowerCase() === 'checking' && e.getBrojRacuna === brojRacuna);
+    provjeraTipaRacuna(brojRacuna){
+        return this.racuni.find((e) => e.tipRacuna.toLowerCase() === 'checking' && e.getBrojRacuna === brojRacuna);
     }
 
 }
 
-
 class Racun{
     imeVlasnika;
-    #brojRacuna;
-    #iznosNaRacunu;
+    username;
+    password;
+    brojRacuna;
+    iznosNaRacunu;
 
-    constructor(imeVlasnika, iznosNaRacunu){
+    constructor(imeVlasnika, iznosNaRacunu, username, password, banka){
         this.imeVlasnika = imeVlasnika;
-        this.#brojRacuna = this.#generisiBrojRacuna();
-        this.#iznosNaRacunu = iznosNaRacunu;
+        this.username = username;
+        this.password = password;
+        this.brojRacuna = this.#generisiBrojRacuna(banka);
+        this.iznosNaRacunu = iznosNaRacunu;
     }
 
-
-    prikaziStanjeRacuna(){
-        ispisLinija(80);
-        console.log(`${blue}\tPrikaz stanja na racunu${white}`);
-        console.log(`Ime: ${green}${this.imeVlasnika} ${white}`);
-        console.log(`Stanje:${green} ${this.getIznosNaRacunu}${white}`);
-    }
-
-    #generisiBrojRacuna(){
+    #generisiBrojRacuna(banka){
         let brojRacuna = '';
         let pom = 0;
             while(brojRacuna.length < 16){
                 pom = parseInt(Math.random() * 10);
                 brojRacuna = brojRacuna + pom;
-                if(brojRacuna.length === 16 && !Banka.nePostojiRacun(brojRacuna))
+                if(brojRacuna.length === 16 && !banka.nePostojiRacun(brojRacuna))
                     brojRacuna = '';
             }
         return brojRacuna;  
     }
 
     get getIznosNaRacunu(){
-        return this.#iznosNaRacunu;
+        return this.iznosNaRacunu;
     }
 
     get getBrojRacuna(){
-        return this.#brojRacuna;
+        return this.brojRacuna;
     }
 
     set setIznosNaRacunu(iznos){
-        this.#iznosNaRacunu = iznos;
+        this.iznosNaRacunu = iznos;
     }
 
     povuciNovac(iznos){
-        ispisLinija(80);
-        console.log(`${blue}\t\t\t\tPodizanje novca${white}`);
-        ispisLinija(80);
         if(iznos <= this.getIznosNaRacunu){
-            console.log(`${green}Vasa transakcija se obradjuje. Molimo sacekajte!`);
-            for(let i = 0; i < 4; i++) console.log("\t\t\t.");
             this.setIznosNaRacunu = this.getIznosNaRacunu - iznos;
-            console.log(`${green}\t\tTransakcija zavrsena!${white}\n\t\tIsplaceno: (${iznos}KM)`);
-            this.prikaziStanjeRacuna();
+            return;
         }
         else
-            console.log(`${red}Nemate dovoljno sredstava na racunu!${white}`);
+            return `Nemate dovoljno sredstava na racunu!`;
     }
 
     depozitNovca(iznos){
-        ispisLinija(80);
         if(iznos > 0){
-            console.log(`${green}Vasa transakcija depozita novca (${iznos}KM) se obradjuje. Molimo sacekajte!`);
-            for(let i = 0; i < 4; i++) console.log("\t\t\t.");
             this.setIznosNaRacunu = this.getIznosNaRacunu + iznos;
-            console.log(`${green}\t\tDepozit novca zavrsen!${white}`);
-            this.prikaziStanjeRacuna();
         }
         else
-            console.log(`${red}Nije moguce izvrsiti depozit sa negativnim iznosom!${white}`);
+           return `Nije moguce izvrsiti depozit sa negativnim iznosom!`;
     }
 };
 
-
-class CheckingRacun extends Racun{
-
-    constructor(imeVlasnika, iznosNaRacunu){
-        super(imeVlasnika, iznosNaRacunu);
-        this.tipRacuna = 'Checking';;
-        Banka.dodajRacun(this);
-        console.log(`${green}Uspjesno ste kreirali${blue} ${this.tipRacuna} ${green}racun na ime ${imeVlasnika}!${white}`);
+export class CheckingRacun extends Racun {
+    constructor(imeVlasnika, iznosNaRacunu, username, password, banka) {
+        super(imeVlasnika, iznosNaRacunu, username, password, banka);
+        this.tipRacuna = 'Checking';
+        banka.dodajRacun(this);
     }
 
-    static kreirajCheckingRacun(imeVlasnika, iznosNaRacunu){
-        if(iznosNaRacunu < 0){
-           console.log(`${red}Nije dozvoljeno kreiranje racuna sa negativnim iznosom!${white}`);
-           return;
-        }
-        return new CheckingRacun(imeVlasnika, iznosNaRacunu);
+    static kreirajCheckingRacun(imeVlasnika, iznosNaRacunu, username, password, banka) {
+        if (iznosNaRacunu < 0)
+            return `Nije dozvoljeno kreiranje racuna sa negativnim iznosom!`;
+
+        return new CheckingRacun(imeVlasnika, iznosNaRacunu, username, password, banka);
     }
-};
+}
 
-class SavingsRacun extends Racun{
+export class SavingsRacun extends Racun{
 
-    constructor(imeVlasnika, iznosNaRacunu){
-        super(imeVlasnika, iznosNaRacunu);
+    constructor(imeVlasnika, iznosNaRacunu, username, password, banka){
+        super(imeVlasnika, iznosNaRacunu, username, password, banka);
         this.tipRacuna = 'Savings';;
-        Banka.dodajRacun(this);
-        console.log(`${green}Uspjesno ste kreirali${blue} ${this.tipRacuna} ${green}racun na ime ${imeVlasnika}!${white}`);
+        banka.dodajRacun(this);
     }
 
-    static kreirajSavingsRacun(imeVlasnika, iznosNaRacunu){
-        if(iznosNaRacunu < 0){
-           console.log(`${red}Nije dozvoljeno kreiranje racuna sa negativnim iznosom!${white}`);
-           return;
-        }
-        return new SavingsRacun(imeVlasnika, iznosNaRacunu);
+    static kreirajSavingsRacun(imeVlasnika, iznosNaRacunu, username, password, banka){
+        if(iznosNaRacunu < 0)
+            return `Nije dozvoljeno kreiranje racuna sa negativnim iznosom!`;
+        
+        return new SavingsRacun(imeVlasnika, iznosNaRacunu, username, password, banka);
     }
 };
 
 
 const banka = new Banka('Mese Selimovica 1');
 
-const korisnik1 = CheckingRacun.kreirajCheckingRacun('Mujo Mujic', 700);
-const korisnik2 = CheckingRacun.kreirajCheckingRacun('Niko Nikic', 500);
-const korisnik3 = CheckingRacun.kreirajCheckingRacun('Ane Kane', -500);
-const korisnik4 = SavingsRacun.kreirajSavingsRacun('Ricko Kanic', 0);
+const korisnik1 = CheckingRacun.kreirajCheckingRacun('Mujo Mujic', 700, 'mujo123', 'pass123', banka);
+const korisnik2 = CheckingRacun.kreirajCheckingRacun('Niko Nikic', 500, 'niko456', 'pass456', banka);
+const korisnik3 = CheckingRacun.kreirajCheckingRacun('Ane Kane', -500, 'ane789', 'pass789', banka);
+const korisnik4 = SavingsRacun.kreirajSavingsRacun('Ricko Kanic', 0, 'ricko999', 'pass999', banka);
 
-korisnik1.prikaziStanjeRacuna();
 
-// Banka.uplataNaRacun(korisnik1.getBrojRacuna, korisnik2.getBrojRacuna, 400);
-// Banka.uplataNaRacun(korisnik1.getBrojRacuna, korisnik4.getBrojRacuna, 200);
 
-// korisnik2.povuciNovac(50);
-
-// korisnik1.povuciNovac(20);
-
-Banka.prikaziRacune();
