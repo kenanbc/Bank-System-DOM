@@ -27,7 +27,7 @@
             <div id="popup" class="popup">
                 <div class="popup-content">
                     <span class="close">&times;</span>
-                    <h2>Korisničke informacije</h2>
+                    <h2>Korisnicke informacije</h2>
                     <p id="userInfo"></p>
                 </div>
             </div>
@@ -36,6 +36,13 @@
 
         <div class="tipRacuna">
             <button class="check-button" id="tip">Tip racuna</button>
+            <div id="accountPopup" class="popup">
+                <div class="popup-content">
+                    <span class="close">&times;</span>
+                    <h2>Tip računa</h2>
+                    <p id="accountInfo"></p>
+                </div>
+            </div>
         </div>
 
         <div class="odjava">
@@ -248,8 +255,8 @@
 
             infoButton.addEventListener("click", () => {
                 if (userObject) {
-                    userInfoParagraph.innerHTML = 
-        `        <strong>Ime:</strong> ${userObject.imeVlasnika} <br>
+                    userInfoParagraph.innerHTML =
+                        `        <strong>Ime:</strong> ${userObject.imeVlasnika} <br>
                 <strong>Broj računa:</strong> ${userObject.brojRacuna} <br>
                 <strong>Tip računa:</strong> ${userObject.tipRacuna} <br>
                 <strong>Iznos na računu:</strong> ${userObject.iznosNaRacunu} BAM`;
@@ -257,14 +264,14 @@
                     userInfoParagraph.textContent = "Nema podataka o korisniku.";
                 }
 
-                popup.style.display = "block"; // Prikazuje popup
+                popup.style.display = "block";
             });
 
             closeButton.addEventListener("click", () => {
-                popup.style.display = "none"; // Zatvara popup
+                popup.style.display = "none";
             });
 
-            // Zatvaranje popup-a kada korisnik klikne van njega
+
             window.addEventListener("click", (event) => {
                 if (event.target === popup) {
                     popup.style.display = "none";
@@ -272,6 +279,40 @@
             });
         });
 
+        document.addEventListener("DOMContentLoaded", () => {
+            const tipButton = document.querySelector("#tip"); 
+            const accountPopup = document.querySelector("#accountPopup");
+            const closeButtons = document.querySelectorAll(".close");
+            const accountInfoParagraph = document.querySelector("#accountInfo");
+
+            const userObject = JSON.parse(sessionStorage.getItem("user"));
+
+            tipButton.addEventListener("click", () => {
+                if (userObject) {
+                    accountInfoParagraph.innerHTML = `
+                <strong>Tip računa:</strong> ${userObject.tipRacuna} <br>
+                <strong>Stanje na računu:</strong> ${userObject.iznosNaRacunu} BAM <br>
+                <strong>Ime vlasnika:</strong> ${userObject.imeVlasnika}
+            `;
+                } else {
+                    accountInfoParagraph.textContent = "Nema podataka o korisniku.";
+                }
+
+                accountPopup.style.display = "block"; 
+            });
+
+            closeButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    accountPopup.style.display = "none"; 
+                });
+            });
+
+            window.addEventListener("click", (event) => {
+                if (event.target === accountPopup) {
+                    accountPopup.style.display = "none"; 
+                }
+            });
+        });
 
     </script>
 </body>
