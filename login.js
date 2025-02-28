@@ -1,12 +1,13 @@
 import { Banka } from "./banka.js";
 import { CheckingRacun } from "./banka.js";
 import { SavingsRacun } from "./banka.js";
+import { Racun } from "./banka.js";
 
 const banka = new Banka("Mese Selimovica 1");
 
 // user-i napravljeni kao primjer
 const user1 = CheckingRacun.kreirajCheckingRacun(
-  "Mujo Mujic",
+ "Mujo Mujic",
   700,
   "a",
   "a",
@@ -40,3 +41,4 @@ document
       alert("Pogrešno uneseno ime ili password.");
     }
   });
+  

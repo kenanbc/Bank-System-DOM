@@ -22,7 +22,7 @@
         </div>
 
         <div class="informacijeOKorisniku">
-            <button class="check-button">Informacije</button>
+            <button class="check-button" id="info">Informacije</button>
 
             <div id="popup" class="popup">
                 <div class="popup-content">
@@ -33,39 +33,9 @@
             </div>
         </div>
 
-        <style>
-            .popup {
-                display: none;
-                position: fixed;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
-                border-radius: 8px;
-                width: 500px;
-                height: 300px;
-                overflow: auto;
-            }
-
-            .popup-content {
-                text-align: center;
-                font-size: 2rem;
-            }
-
-            .close {
-                position: absolute;
-                top: 10px;
-                right: 15px;
-                font-size: 20px;
-                cursor: pointer;
-            }
-        </style>
 
         <div class="tipRacuna">
-            <button class="check-button">Tip racuna</button>
+            <button class="check-button" id="tip">Tip racuna</button>
         </div>
 
         <div class="odjava">
@@ -266,8 +236,43 @@
         });
 
         transferBtn.addEventListener("click", () => {
-
         });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const infoButton = document.querySelector("#info");
+            const popup = document.querySelector("#popup");
+            const closeButton = document.querySelector(".close");
+            const userInfoParagraph = document.querySelector("#userInfo");
+
+            const userObject = JSON.parse(sessionStorage.getItem("user"));
+
+            infoButton.addEventListener("click", () => {
+                if (userObject) {
+                    userInfoParagraph.innerHTML = 
+        `        <strong>Ime:</strong> ${userObject.imeVlasnika} <br>
+                <strong>Broj računa:</strong> ${userObject.brojRacuna} <br>
+                <strong>Tip računa:</strong> ${userObject.tipRacuna} <br>
+                <strong>Iznos na računu:</strong> ${userObject.iznosNaRacunu} BAM`;
+                } else {
+                    userInfoParagraph.textContent = "Nema podataka o korisniku.";
+                }
+
+                popup.style.display = "block"; // Prikazuje popup
+            });
+
+            closeButton.addEventListener("click", () => {
+                popup.style.display = "none"; // Zatvara popup
+            });
+
+            // Zatvaranje popup-a kada korisnik klikne van njega
+            window.addEventListener("click", (event) => {
+                if (event.target === popup) {
+                    popup.style.display = "none";
+                }
+            });
+        });
+
+
     </script>
 </body>
 
