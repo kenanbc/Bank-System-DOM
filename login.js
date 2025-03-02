@@ -6,14 +6,14 @@ import { Racun } from "./banka.js";
 const banka = new Banka("Mese Selimovica 1");
 
 // user-i napravljeni kao primjer
-const user1 = CheckingRacun.kreirajCheckingRacun(
+CheckingRacun.kreirajCheckingRacun(
  "Mujo Mujic",
   700,
   "a",
   "a",
   banka
 );
-const user2 = CheckingRacun.kreirajCheckingRacun(
+CheckingRacun.kreirajCheckingRacun(
   "Niko Nikic",
   500,
   "niko456",

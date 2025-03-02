@@ -64,7 +64,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.header button:hover {
     background-color: #23680a;
     color: white;
 }
@@ -171,7 +171,7 @@ h3 {
     color: #272D2D;
 }
 
-.inner-acton-right {
+.inner-action-right {
     display: flex;
     justify-content: center;
 }
@@ -278,3 +278,4 @@ h3 {
     border-radius: 2rem;
     border: 0;
 }
+

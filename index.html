@@ -93,7 +93,6 @@
 
     <div class="main-action">
         <div class="main-action-inner">
-
         </div>
     </div>
 
@@ -319,6 +318,7 @@
 
             if (checkOutButton) {
                 checkOutButton.addEventListener("click", () => {
+                    sessionStorage.removeItem("user");
                     window.location.href = "login.html";
                 });
             }

@@ -144,14 +144,3 @@ export class SavingsRacun extends Racun{
         return new SavingsRacun(imeVlasnika, iznosNaRacunu, username, password, banka);
     }
 };
-
-
-const banka = new Banka('Mese Selimovica 1');
-
-const korisnik1 = CheckingRacun.kreirajCheckingRacun('Mujo Mujic', 700, 'mujo123', 'pass123', banka);
-const korisnik2 = CheckingRacun.kreirajCheckingRacun('Niko Nikic', 500, 'niko456', 'pass456', banka);
-const korisnik3 = CheckingRacun.kreirajCheckingRacun('Ane Kane', -500, 'ane789', 'pass789', banka);
-const korisnik4 = SavingsRacun.kreirajSavingsRacun('Ricko Kanic', 0, 'ricko999', 'pass999', banka);
-
-
-
