@@ -280,7 +280,7 @@
         });
 
         document.addEventListener("DOMContentLoaded", () => {
-            const tipButton = document.querySelector("#tip"); 
+            const tipButton = document.querySelector("#tip");
             const accountPopup = document.querySelector("#accountPopup");
             const closeButtons = document.querySelectorAll(".close");
             const accountInfoParagraph = document.querySelector("#accountInfo");
@@ -298,20 +298,30 @@
                     accountInfoParagraph.textContent = "Nema podataka o korisniku.";
                 }
 
-                accountPopup.style.display = "block"; 
+                accountPopup.style.display = "block";
             });
 
             closeButtons.forEach((button) => {
                 button.addEventListener("click", () => {
-                    accountPopup.style.display = "none"; 
+                    accountPopup.style.display = "none";
                 });
             });
 
             window.addEventListener("click", (event) => {
                 if (event.target === accountPopup) {
-                    accountPopup.style.display = "none"; 
+                    accountPopup.style.display = "none";
                 }
             });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const checkOutButton = document.querySelector(".check-out-button");
+
+            if (checkOutButton) {
+                checkOutButton.addEventListener("click", () => {
+                    window.location.href = "login.html";
+                });
+            }
         });
 
     </script>
