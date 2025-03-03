@@ -1,6 +1,10 @@
 export class Banka{
     adresa;
     racuni = [];
+    transakcije = [
+        {racun: '9012751480565861', target: '5636346346436436', iznos: '- 1', datum: '2025-01-01'},
+        {racun: '6246735754747553', target: '6246735754747553', iznos: '+ 200', datum: '2025-02-01'}
+    ];
 
     constructor(adresa){
         this.adresa = adresa;
@@ -10,12 +14,20 @@ export class Banka{
         this.racuni.push(racun);
     }
 
+    dodajTransakciju(transakcija){
+        this.transakcije.push(transakcija);
+    }
+
     nePostojiRacun(brojRacuna){
         return !this.racuni.find((e) => e.getBrojRacuna === brojRacuna);
     }
 
     nadjiRacun(brojRacuna, username){
        return this.racuni.find((e) => e.getBrojRacuna === brojRacuna || e.username === username);
+    }
+
+    nadjiTransakcije(brojRacuna){
+        return this.transakcije.filter((e) => e.racun === brojRacuna)
     }
 
     uplataNaRacun(sourceRacun, targetRacun, iznos){
@@ -35,7 +47,8 @@ export class Banka{
         }
         else if(this.izvrsiTransakciju(targetRacun, iznos)){
             srcRacun.setIznosNaRacunu = srcRacun.getIznosNaRacunu - iznos;
-            return `Uspjesno ste izvrsili uplatu na racun`; 
+            this.dodajTransakciju({racun: srcRacun, target: targetRacun, iznos: iznos, datum: new Date()});
+            return true; 
         }
         else
            return `Doslo je do problema sa izvodenjem transakcije! Pokusajte ponovo!`;
@@ -64,11 +77,11 @@ export class Racun{
     brojRacuna;
     iznosNaRacunu;
 
-    constructor(imeVlasnika, iznosNaRacunu, username, password, banka){
+    constructor(imeVlasnika, iznosNaRacunu, username, password, brojRacuna){
         this.imeVlasnika = imeVlasnika;
         this.username = username;
         this.password = password;
-        this.brojRacuna = this.#generisiBrojRacuna(banka);
+        this.brojRacuna = brojRacuna;
         this.iznosNaRacunu = iznosNaRacunu;
     }
 
@@ -115,32 +128,63 @@ export class Racun{
 };
 
 export class CheckingRacun extends Racun {
-    constructor(imeVlasnika, iznosNaRacunu, username, password, banka) {
-        super(imeVlasnika, iznosNaRacunu, username, password, banka);
+    constructor(imeVlasnika, iznosNaRacunu, username, password, brojRacuna, banka) {
+        super(imeVlasnika, iznosNaRacunu, username, password, brojRacuna);
         this.tipRacuna = 'Checking';
         banka.dodajRacun(this);
     }
 
-    static kreirajCheckingRacun(imeVlasnika, iznosNaRacunu, username, password, banka) {
+    static kreirajCheckingRacun(imeVlasnika, iznosNaRacunu, username, password, brojRacuna, banka) {
         if (iznosNaRacunu < 0)
             return `Nije dozvoljeno kreiranje racuna sa negativnim iznosom!`;
 
-        return new CheckingRacun(imeVlasnika, iznosNaRacunu, username, password, banka);
+        return new CheckingRacun(imeVlasnika, iznosNaRacunu, username, password,brojRacuna, banka);
     }
 }
 
 export class SavingsRacun extends Racun{
 
-    constructor(imeVlasnika, iznosNaRacunu, username, password, banka){
-        super(imeVlasnika, iznosNaRacunu, username, password, banka);
+    constructor(imeVlasnika, iznosNaRacunu, username, password, brojRacuna, banka){
+        super(imeVlasnika, iznosNaRacunu, username, password, brojRacuna);
         this.tipRacuna = 'Savings';;
         banka.dodajRacun(this);
     }
 
-    static kreirajSavingsRacun(imeVlasnika, iznosNaRacunu, username, password, banka){
+    static kreirajSavingsRacun(imeVlasnika, iznosNaRacunu, username, password, brojRacuna, banka){
         if(iznosNaRacunu < 0)
             return `Nije dozvoljeno kreiranje racuna sa negativnim iznosom!`;
         
-        return new SavingsRacun(imeVlasnika, iznosNaRacunu, username, password, banka);
+        return new SavingsRacun(imeVlasnika, iznosNaRacunu, username, password, brojRacuna, banka);
     }
 };
+
+
+const banka = new Banka("Mese Selimovica 1");
+
+CheckingRacun.kreirajCheckingRacun(
+ "Mujo Mujic",
+  700,
+  "a",
+  "a",
+  '9012751480565861', 
+  banka
+);
+CheckingRacun.kreirajCheckingRacun(
+  "Niko Nikic",
+  500,
+  "niko456",
+  "pass456",
+  '5636346346436436',
+  banka
+);
+
+SavingsRacun.kreirajSavingsRacun(
+    "Bob Hodzic",
+     1200,
+     "bobi",
+     "bob123",
+     '6246735754747553', 
+     banka
+   );
+
+export { banka} ;

@@ -60,13 +60,6 @@
             </svg>
             <button id="acc-status-btn">Stanje racuna</button>
         </div>
-        <!-- <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-cash-stack" viewBox="0 0 16 16">
-                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
-              </svg>
-            <button id="deposit-money-btn">Depozit novca</button>
-        </div> -->
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-coin"
                 viewBox="0 0 16 16">
@@ -87,7 +80,7 @@
                     d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
                 <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
             </svg>
-            <button id="transfer-btn">Prebaci novac na racun</button>
+            <button id="history-btn">Historija transakcija</button>
         </div>
     </div>
 
@@ -150,15 +143,21 @@
     </div>
 
     <script type="module">
+        import { banka} from './banka.js';
+
         const accStatusBtn = document.querySelector("#acc-status-btn");
-        //const depositMoneyBtn = document.querySelector("#deposit-money-btn");
         const payBtn = document.querySelector("#pay-btn");
-        const transferBtn = document.querySelector("#transfer-btn");
+        const historyBtn = document.querySelector("#history-btn");
 
         const mainActionDiv = document.querySelector(".main-action");
-        const userObject = JSON.parse(sessionStorage.getItem('user'));
         const innerActionDiv = document.querySelector(".main-action-inner");
+        
+        const userObject = JSON.parse(sessionStorage.getItem('user'));
+        const transactionsObject = JSON.parse(sessionStorage.getItem('transactions'));
 
+        if(userObject.tipRacuna === 'Savings')
+            payBtn.disabled = true;
+        
         accStatusBtn.addEventListener("click", () => {
             const name = document.querySelector("#name-paragraph");
             mainActionDiv.style.visibility = 'visible';
@@ -167,6 +166,7 @@
                 innerActionDiv.innerHTML = "";
                 innerActionDiv.style.display = "flex";
                 innerActionDiv.style.flexDirection = 'row';
+
                 const innerLeftDiv = document.createElement("div");
                 const innerRightDiv = document.createElement("div");
                 innerLeftDiv.setAttribute("class", "inner-action-left");
@@ -217,31 +217,116 @@
 
             innerTopDiv.setAttribute("class", "inner-action-top");
             innerBottomDiv.setAttribute("class", "inner-action-bottom");
+
             innerActionDiv.appendChild(innerTopDiv);
             innerActionDiv.appendChild(innerBottomDiv);
 
             const title = document.createElement("h1");
-            title.textContent = 'Prebaci novac na racun';
+            title.textContent = 'Uplata na račun';
             innerTopDiv.appendChild(title);
 
-
-            const numOfAcc = document.createElement("h3");
-            numOfAcc.textContent = "Vas broj racuna:" + userObject.brojRacuna;
-            console.log(userObject);
-            innerBottomDiv.appendChild(numOfAcc);
+            const accLabel = document.createElement("label");
+            accLabel.textContent = "Broj računa";
+            accLabel.setAttribute("class", "transfer-label");
 
             const accountNum = document.createElement("input");
             accountNum.setAttribute("type", "text");
+            accountNum.setAttribute("id", "acc-num")
             accountNum.setAttribute("class", "accNum-input-field");
-            innerBottomDiv.appendChild(accountNum);
+
+            const amountLabel = document.createElement("label");
+            amountLabel.textContent = "Iznos";
+            amountLabel.setAttribute("class", "transfer-label");
 
             const inputValue = document.createElement("input");
             inputValue.setAttribute("type", "number");
+            inputValue.setAttribute("id", "money-value-field")
             inputValue.setAttribute("class", "money-input-field");
-            innerBottomDiv.appendChild(inputValue);
+
+            const submitBtn = document.createElement("button");
+            submitBtn.textContent = "Potvrdi";
+            submitBtn.setAttribute("class", "transfer-btn")
+
+            submitBtn.addEventListener("click", () => {
+                const accNum = document.querySelector("#acc-num").value;
+                const money = document.querySelector("#money-value-field").value;
+
+                const pay = banka.uplataNaRacun(userObject.brojRacuna, accNum, money);
+                if(pay === true){
+                    alert(`Uspjesno ste izvrsili uplatu na racun`);
+                    let updateMoney = userObject.iznosNaRacunu - money;
+                    userObject.iznosNaRacunu = updateMoney;
+                    sessionStorage.setItem("user", JSON.stringify(userObject));
+
+                    transactionsObject.push({racun: userObject.brojRacuna, target: accNum, iznos: '- ' + money, datum: new Date().toISOString().split('T')[0]});
+                    sessionStorage.setItem("transactions", JSON.stringify(transactionsObject));
+                    inputValue.value = '';
+                }
+                else alert(pay)
+            });
+
+            innerBottomDiv.append(accLabel, accountNum, amountLabel, inputValue);
+            innerActionDiv.append(submitBtn);
         });
 
-        transferBtn.addEventListener("click", () => {
+
+        historyBtn.addEventListener("click", () => {
+            innerActionDiv.innerHTML = "";
+            mainActionDiv.style.visibility = 'visible';
+            innerActionDiv.style.display = "flex";
+            innerActionDiv.style.flexDirection = 'column';
+
+            const innerTopDiv = document.createElement("div");
+            const innerBottomDiv = document.createElement("div");
+
+            innerTopDiv.setAttribute("class", "inner-action-top");
+            innerBottomDiv.classList.add("inner-action-bottom", "center-div-content");
+
+            innerActionDiv.appendChild(innerTopDiv);
+            innerActionDiv.appendChild(innerBottomDiv);
+
+            const title = document.createElement("h1");
+            title.textContent = 'Historija transakcija';
+            innerTopDiv.appendChild(title);
+
+            const historyTable = document.createElement("table");
+            
+            const thead = document.createElement("thead");
+            const tbody = document.createElement("tbody");
+
+            const headerRow = document.createElement("tr");
+
+            const headers = ["Broj racuna", "Iznos", "Datum"];
+            headers.forEach(text => {
+                const th = document.createElement("th");
+                th.textContent = text;
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            historyTable.appendChild(thead);
+            historyTable.appendChild(tbody);
+
+            transactionsObject.forEach(e => {
+                const row = document.createElement("tr");
+                const tdTarget = document.createElement("td");
+                tdTarget.textContent = e.target;
+
+                const tdValue = document.createElement("td");
+                tdValue.textContent = e.iznos + ' BAM';
+
+                const tdDate = document.createElement("td");
+                tdDate.textContent = e.datum;
+               
+                row.appendChild(tdTarget);
+                row.appendChild(tdValue);
+                row.appendChild(tdDate);
+
+                tbody.appendChild(row);
+            });
+
+            innerBottomDiv.append(historyTable);
+
         });
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -250,7 +335,7 @@
             const closeButton = document.querySelector(".close");
             const userInfoParagraph = document.querySelector("#userInfo");
 
-            const userObject = JSON.parse(sessionStorage.getItem("user"));
+            //const userObject = JSON.parse(sessionStorage.getItem("user"));
 
             infoButton.addEventListener("click", () => {
                 if (userObject) {
@@ -284,7 +369,7 @@
             const closeButtons = document.querySelectorAll(".close");
             const accountInfoParagraph = document.querySelector("#accountInfo");
 
-            const userObject = JSON.parse(sessionStorage.getItem("user"));
+            //const userObject = JSON.parse(sessionStorage.getItem("user"));
 
             tipButton.addEventListener("click", () => {
                 if (userObject) {
@@ -319,6 +404,7 @@
             if (checkOutButton) {
                 checkOutButton.addEventListener("click", () => {
                     sessionStorage.removeItem("user");
+                    sessionStorage.removeItem("transactions");
                     window.location.href = "login.html";
                 });
             }

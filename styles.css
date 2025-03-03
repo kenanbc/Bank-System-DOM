@@ -145,6 +145,7 @@ body {
     /* border-top: 1px solid #1f3d7b; */
     height: 25rem;
     padding: 1rem 25%;
+    color: #1f3d7b;
 }
 
 .main-action-inner {
@@ -167,8 +168,12 @@ body {
 
 .main-action-inner h2,
 h3 {
-    margin-left: 2rem;
     color: #272D2D;
+}
+
+.main-div button:hover{
+    background-color: #1f3d7b;
+    color: white;
 }
 
 .inner-action-right {
@@ -176,8 +181,10 @@ h3 {
     justify-content: center;
 }
 
-#money-value {
-    margin: 5rem 0 0 2rem;
+.inner-action-left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .footer {
@@ -272,10 +279,51 @@ h3 {
     justify-content: center;
 }
 
+.inner-action-bottom{
+    width: 100%;
+}
 
+.center-div-content{
+    display: flex;
+    justify-content: center;
+}
 .money-input-field,
 .accNum-input-field {
     border-radius: 2rem;
     border: 0;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    margin: 1rem 0;
+    width: 100%;
+    height: 2rem;
+    display: block;
 }
 
+.transfer-label{
+    font-weight: bold;
+    display: block;
+}
+
+.transfer-btn{
+    background-color: #1f3d7b;
+    color: white;
+    width: 40%;
+    height: 2rem;
+    border-radius: 2rem;
+    border: 0;
+}
+
+.transfer-btn:hover{
+    background-color: #111827;
+}
+
+table, tr, td, th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    color: #000;
+    text-align: center;
+}
+
+table{
+    width: 100%;
+}
